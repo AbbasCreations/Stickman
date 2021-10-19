@@ -115,6 +115,10 @@ Math.sinus = function (degree) {
   return Math.sin((degree / 180) * Math.PI);
 };
 
+var greater = 10;
+
+
+
 // Game data
 let phase = "waiting"; // waiting | stretching | turning | walking | transitioning | falling
 let lastTimestamp; // The timestamp of the previous requestAnimationFrame cycle
@@ -209,7 +213,7 @@ onlongtouch = function() {
 document.addEventListener("DOMContentLoaded", function(event) { 
     window.addEventListener("touchstart", touchstart, { passive: false });
     window.addEventListener("touchend", touchend, { passive: false });
-});
+  });
 
 // Initialize layout
 resetGame();
@@ -267,8 +271,12 @@ function generateTree() {
     furthestX +
     minimumGap +
     Math.floor(Math.random() * (maximumGap - minimumGap));
-
-  const treeColors = ["#6D8821", "#8FAC34", "#98B333"];
+    if(score >= greater){
+  var treeColors = ["#222", "#333", "#444"];}
+      else
+  {
+    var treeColors = ["#6D8821", "#8FAC34", "#98B333"];}
+  
   const color = treeColors[Math.floor(Math.random() * 3)];
 
   trees.push({ x, color });
@@ -489,7 +497,13 @@ restartButton.addEventListener( mytap, (e) => {
 function drawPlatforms() {
   platforms.forEach(({ x, w }) => {
     // Draw platform
-    ctx.fillStyle = "sienna";
+      if(score >= greater){
+    ctx.fillStyle = "darkslategray";
+    }
+    else
+    {
+      ctx.fillStyle = "sienna";
+    }
     ctx.fillRect(
       x,
       canvasHeight - platformHeight,
@@ -514,7 +528,12 @@ function drawPlatforms() {
 
 function drawHero() {
   ctx.save();
-  ctx.fillStyle = "black";
+  if(score >= greater){
+  ctx.fillStyle = "darkgrey";
+  }
+  else{
+    ctx.fillStyle = "black";
+  }
   ctx.translate(
     heroX - heroWidth / 2,
     heroY + canvasHeight - platformHeight - heroHeight / 2
@@ -576,6 +595,12 @@ function drawRoundedRect(x, y, width, height, radius) {
 }
 
 function drawSticks() {
+  if(score >= greater){
+  document.getElementById("score").style.color = "#444";
+  }
+  else{
+    document.getElementById("score").style.color = "#000";
+  }
   sticks.forEach((stick) => {
     ctx.save();
 
@@ -590,23 +615,39 @@ function drawSticks() {
     ctx.lineTo(0, -stick.length);
     ctx.stroke();
 
+
     // Restore transformations
     ctx.restore();
   });
 }
 
+
 function drawBackground() {
+  
   // Draw sky
   var gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
-  gradient.addColorStop(0, "#C9F6FF");
-  gradient.addColorStop(1, "#C9F6FF");
+  
+  if(score >= greater){
+gradient.addColorStop(0, "#000");
+  gradient.addColorStop(1, "#111");
+}
+  else{
+    gradient.addColorStop(0, "#C9F6FF");
+  gradient.addColorStop(1, "#C9F6FF"); 
+}
+
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
   // Draw hills
-  drawHill(hill1BaseHeight, hill1Amplitude, hill1Stretch, "#95C629");
+  if(score >= greater){
+    drawHill(hill1BaseHeight, hill1Amplitude, hill1Stretch, "#222");
+  drawHill(hill2BaseHeight, hill2Amplitude, hill2Stretch, "#333");
+  } else 
+  {
+    drawHill(hill1BaseHeight, hill1Amplitude, hill1Stretch, "#95C629");
   drawHill(hill2BaseHeight, hill2Amplitude, hill2Stretch, "#659F1C");
-
+  }
   // Draw trees
   trees.forEach((tree) => drawTree(tree.x, tree.color));
 }
@@ -637,7 +678,14 @@ function drawTree(x, color) {
   const treeCrownWidth = 10;
 
   // Draw trunk
-  ctx.fillStyle = "#7D833C";
+  if ( score >= greater){
+    ctx.fillStyle = "#444";
+  }
+  else{
+    ctx.fillStyle = "#7D833C";
+  }
+
+
   ctx.fillRect(
     -treeTrunkWidth / 2,
     -treeTrunkHeight,
