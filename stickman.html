@@ -283,10 +283,25 @@ function generateTree() {
 }
 
 function generatePlatform() {
-  const minimumGap = 60;
-  const maximumGap = 250;
-  const minimumWidth = 15;
-  const maximumWidth = 60;
+if (score <= 10){
+  var minimumGap = 50;
+  var maximumGap = 150;
+  var minimumWidth = 30;
+  var maximumWidth = 60;
+}
+
+else if(score > 10){
+  var minimumGap = 60;
+  var maximumGap = 250;
+  var minimumWidth = 15;
+  var maximumWidth = 60;
+}
+else {
+  var minimumGap = 60;
+  var maximumGap = 250;
+  var minimumWidth = 15;
+  var maximumWidth = 60;
+}
 
   // X coordinate of the right edge of the furthest platform
   const lastPlatform = platforms[platforms.length - 1];
@@ -597,9 +612,13 @@ function drawRoundedRect(x, y, width, height, radius) {
 function drawSticks() {
   if(score >= greater){
   document.getElementById("score").style.color = "#444";
+  document.getElementById("perfect").style.color = "#444";
+  document.getElementById("restart").style.color = "#444";
   }
   else{
     document.getElementById("score").style.color = "#000";
+    document.getElementById("perfect").style.color = "#000";
+    document.getElementById("restart").style.color = "#000";
   }
   sticks.forEach((stick) => {
     ctx.save();
@@ -610,10 +629,17 @@ function drawSticks() {
 
     // Draw stick
     ctx.beginPath();
-    ctx.lineWidth = 2;
     ctx.moveTo(0, 0);
     ctx.lineTo(0, -stick.length);
+    if(score >= greater){
+      ctx.strokeStyle = "#fff";
     ctx.stroke();
+    }
+    else{
+      ctx.strokeStyle = "black";
+    ctx.stroke();
+    }
+
 
 
     // Restore transformations
