@@ -32,7 +32,13 @@ body {
   align-items: center;
   height: 100%;
 }
-
+#bestScore {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  font-size: 2em;
+  font-weight: 900;
+}
 #score {
   position: absolute;
   top: 30px;
@@ -80,11 +86,13 @@ body {
 }
 
 
-
+#gameBanner{position: absolute;top: 0;height: 100%;width:100%;z-index:999999999999999999;left: 0;right: 0;margin: 0 auto;}
     </style>
   </head>
   <body>
     <div class="container">
+        <img id="gameBanner" src="./little Ninja splash.jpg" class="img-fluid">
+        <div id="bestScore">Best:</div>
         <div id="score">Score:</div>
         <canvas id="game" width="375" height="375"></canvas>
         <div id="introduction">Tap & Hold To make it to next point</div>
@@ -101,7 +109,7 @@ body {
 * at once. Default is 200. */
 function SnowflakeCanvas(maxSnowflakes) {
 // if no max given, set to 200
-this.maxSnowflakes = typeof maxSnowflakes !== "undefined" ? maxSnowflakes : 200;
+this.maxSnowflakes = typeof maxSnowflakes !== "undefined" ? maxSnowflakes : 100;
 
 // so "this" can be used inside lambdas in this scope.
 var self = this;
@@ -259,7 +267,51 @@ https://youtu.be/eue3UdFvwPo
 Follow me on twitter for more: https://twitter.com/HunorBorbely
 
 */
-
+function sprite() {}
+sprite.prototype = {
+    create: function(c, b, f) {
+        this.image = new Image();
+        var a = this;
+        this.image.onload = function() {
+            a.onImage()
+        };
+        var e = new Date();
+        this.image.src = c + "?" + e.getTime();
+        this.step = 0;
+        this.running = true;
+        this.framerate = f;
+        this.size = b;
+        this.off_x = 0;
+        this.off_y = 0;
+        this.loop = true;
+        this.offset = 0
+    },
+    onImage: function() {
+        this.steps = this.image.height / this.size
+    },
+    blit: function(a, c, b, f) {
+        if (!this.image.complete) {
+            return
+        }
+        if (this.loop) {
+            var e = ((f + this.offset) % 1);
+            this.step = Math.floor(e * this.framerate) % this.steps
+        } else {
+            this.step = Math.floor(f * this.framerate);
+            if (this.step > (this.steps - 1)) {
+                this.step = this.steps - 1
+            }
+        }
+        a.drawImage(this.image, 0, this.step * this.size, this.image.width, this.size, c - this.image.width / 2 + this.off_x, b - this.size / 2 + this.off_y, this.image.width, this.size)
+    },
+    start: function() {
+        this.running = true
+    },
+    stop: function() {
+        this.running = false;
+        this.step = 0
+    }
+};
 // Extend the base functionality of JavaScript
 Array.prototype.last = function () {
   return this[this.length - 1];
@@ -335,11 +387,12 @@ const touchduration = 00; //length of time we want the user to touch before we d
 
 
 function touchstart(e) {
- 
+
     e.preventDefault();
-    if (!timer) {
+    if (!timer && e.target.id != "gameBanner"){
         timer = setTimeout(onlongtouch, touchduration);
     }
+
 }
 
 function touchend() {
@@ -369,6 +422,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     window.addEventListener("touchstart", touchstart, { passive: false });
     window.addEventListener("touchend", touchend, { passive: false });
   });
+
+
+
+
+  document.getElementById("gameBanner").addEventListener("touchstart", myFunction , {passive: false});
+
+function myFunction() {
+  document.getElementById("gameBanner").style.display = "none";
+}
 
 // Initialize layout
 resetGame();
