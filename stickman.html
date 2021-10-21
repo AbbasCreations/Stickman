@@ -15,7 +15,6 @@
 
     <title>Ninja Man</title>
     <style>
-#birds{position: absolute;top:0;}
         html,
 body {
   height: 100%;
@@ -37,7 +36,7 @@ body {
   position: absolute;
   top: 30px;
   left: 30px;
-  font-size: 2em;
+  font-size: 1em;
   font-weight: 900;
 }
 #score {
@@ -69,13 +68,13 @@ body {
   border: none;
   font-weight: 700;
   font-size:24px;
+  z-index:99999999999999999999999999999999999999999999999999;
   font-family: 'Press Start 2P', cursive;
   display: none;
   cursor: pointer;
   background:transparent;
   top:25%;
   transform:translateY(-25%);
-  z-index:999999999;
 }
 
 
@@ -88,22 +87,34 @@ body {
 }
 
 
-#gameBanner{position: absolute;top: 0;height: 100%;width:100%;z-index:9999999999999999999999999999999999999;left: 0;right: 0;margin: 0 auto;}
+#gameBanner{position: absolute;top: 0;height: 100%;width:100%;z-index:999999999999999999;left: 0;right: 0;margin: 0 auto;}
+#birds{position: absolute;top:0;}
     </style>
   </head>
   <body>
     <div class="container">
-        <img id="gameBanner" src="https://github.com/CelerantDevteam/Stickman/blob/main/little%20Ninja%20splash.jpg?raw=true" class="img-fluid">
+        <img id="gameBanner" src="./little Ninja splash.jpg" class="img-fluid">
         <div id="bestScore">Best:</div>
         <div id="score">Score:</div>
         <canvas id="game" width="375" height="375"></canvas>
         <div id="introduction">Tap & Hold To make it to next point</div>
         <div id="perfect">DOUBLE SCORE</div>
         <button id="restart">RESTART</button>
+        
       </div>
+  
+      
+      
+      
       
       <script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://cdn.rawgit.com/iAmMortos/CappedAnimationFrames/cf5e80f6/CappedAnimationFrames.js"></script>
+ 
+      <!-- Birds js -->
+      
+      <!-- Birds js -->
+
+
     <!-- Optional JavaScript; choose one of the two! -->
     <script>
       /* Create an instance of this class to kick everything off automatically.
@@ -127,6 +138,7 @@ this.snowflakes = [[],[],[]];
 
 // Create a new canvas element and give it the necessary css styling.
 this.canvas = $("<canvas>")[0];
+this.canvas.id="snowRain";  
 $(this.canvas).css({
   "box-sizing": "border-box",
   "width": "100%",
@@ -142,7 +154,7 @@ this.ctx = this.canvas.getContext("2d");
 this.ctx.canvas.height = window.innerHeight;
 this.ctx.canvas.width = window.innerWidth;
 
-$("body").append(this.canvas);
+$(".container").prepend(this.canvas);
 // update the canvas's size when the screen gets resized
 $(window).resize((e)=>self.updateCanvasSize());
 
@@ -257,6 +269,7 @@ ctx.fill();
 };
 
     </script>
+
       <script>
           /*
 
@@ -342,7 +355,8 @@ let trees = [];
 
 // Todo: Save high score to localStorage (?)
 
-let score = 0;
+let Topscore = 0;
+let score= 0;
 
 // Configuration
 const canvasWidth = 375;
@@ -382,6 +396,7 @@ const perfectElement = document.getElementById("perfect");
 const restartButton = document.getElementById("restart");
 const scoreElement = document.getElementById("score");
 
+
 //MOBILE SETTING
 var onlongtouch; 
 var timer;
@@ -391,7 +406,7 @@ const touchduration = 00; //length of time we want the user to touch before we d
 function touchstart(e) {
 
     e.preventDefault();
-    if (!timer && e.target.id != "gameBanner"){
+    if (!timer && e.target.id != "gameBanner" && e.target.id != "restart"){
         timer = setTimeout(onlongtouch, touchduration);
     }
 
@@ -443,12 +458,22 @@ function resetGame() {
   phase = "waiting";
   lastTimestamp = undefined;
   sceneOffset = 0;
-  score = 0;
+
+  if(score > Topscore){
+    Topscore = score;
+    score = 0;
+  }
+
+   var dummyScore = document.getElementById("bestScore");
+    dummyScore.innerHTML = "Best:" + Topscore;
+
+
 
   introductionElement.style.opacity = 1;
   perfectElement.style.opacity = 0;
   restartButton.style.display = "none";
-  scoreElement.innerText = score;
+  scoreElement.innerText = 0;
+//s  score = 0;  
 
   // The first platform is always the same
   // x + w has to match paddingX
@@ -474,6 +499,7 @@ function resetGame() {
 
   heroX = platforms[0].x + platforms[0].w - heroDistanceFromEdge;
   heroY = 0;
+
 
   draw();
 }
@@ -501,8 +527,16 @@ function generateTree() {
   trees.push({ x, color });
 }
 
+function hideflake(){
+  $("#snowRain").remove();
+  return false;
+}
+
+
+
 function generatePlatform() {
 if (score < 10){
+  hideflake();
   var minimumGap = 50;
   var maximumGap = 150;
   var minimumWidth = 30;
@@ -965,6 +999,8 @@ function getTreeY(x, baseHeight, amplitude) {
 }
 
       </script>
+      
 
-  </body>
+
+      </body>
 </html>
