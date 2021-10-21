@@ -464,6 +464,7 @@ function resetGame() {
     score = 0;
   }
 
+
    var dummyScore = document.getElementById("bestScore");
     dummyScore.innerHTML = "Best:" + Topscore;
 
@@ -808,6 +809,10 @@ function drawHero() {
     heroY + canvasHeight - platformHeight - heroHeight / 2
   );
 
+
+
+
+
   // Body
   drawRoundedRect(
     -heroWidth / 2,
@@ -868,6 +873,7 @@ function drawSticks() {
   document.getElementById("score").style.color = "#444";
   document.getElementById("perfect").style.color = "#444";
   document.getElementById("restart").style.color = "#444";
+  document.getElementById("bestScore").style.color = "#444";
   }
   else{
     document.getElementById("score").style.color = "#000";
