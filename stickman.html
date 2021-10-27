@@ -534,12 +534,10 @@ function hideflake(){
 }
 
 
-if(score >= 10){
-new SnowflakeCanvas();}
-else{}
+
+
 function generatePlatform() {
 if (score < 10){
-  hideflake();
   var minimumGap = 50;
   var maximumGap = 150;
   var minimumWidth = 30;
@@ -811,6 +809,17 @@ function drawHero() {
     heroY + canvasHeight - platformHeight - heroHeight / 2
   );
 
+
+document.getElementByTagName("body").addEventListener("load", mySnow);
+
+function mySnow() {
+if(score < 10){
+hideflake();
+}
+else if(score >= 10){
+new SnowflakeCanvas();}
+else{}
+}
 
 
 
