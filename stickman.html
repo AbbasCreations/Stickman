@@ -534,7 +534,9 @@ function hideflake(){
 }
 
 
-
+if(score >= 10){
+new SnowflakeCanvas();}
+else{}
 function generatePlatform() {
 if (score < 10){
   hideflake();
@@ -545,7 +547,7 @@ if (score < 10){
 }
 
 else if(score >= 10){
-  new SnowflakeCanvas();
+  
   var minimumGap = 60;
   var maximumGap = 250;
   var minimumWidth = 15;
