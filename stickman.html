@@ -758,6 +758,7 @@ function draw() {
 
   // Restore transformation
   ctx.restore();
+mySnow();
 }
 
 restartButton.addEventListener("click", function (event) {
@@ -807,7 +808,7 @@ function drawPlatforms() {
 }
 
 function drawHero() {
-mySnow();
+
   ctx.save();
   if(score >= greater){
   ctx.fillStyle = "darkgrey";
