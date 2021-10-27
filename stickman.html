@@ -532,7 +532,15 @@ function hideflake(){
   $("#snowRain").remove();
   return false;
 }
-
+function mySnow() {
+if(score < 10){
+hideflake();
+}
+else if(score >= 10){
+new SnowflakeCanvas();}
+else{}
+}
+mySnow();
 
 
 
@@ -571,6 +579,7 @@ else {
 
   platforms.push({ x, w });
 }
+
 
 resetGame();
 
@@ -810,16 +819,8 @@ function drawHero() {
   );
 
 
-document.getElementsByTagName("body")[0].addEventListener("load", mySnow);
 
-function mySnow() {
-if(score < 10){
-hideflake();
-}
-else if(score >= 10){
-new SnowflakeCanvas();}
-else{}
-}
+
 
 
 
